@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import dns from "node:dns/promises";
 import { connectDB } from "./Utils/DB.js";
+import AuthRoutes from "./routes/AuthRoutes.js";
 import URLRoute from "./routes/URLroutes.js";
 
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
@@ -11,10 +12,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
+app.use("/auth", AuthRoutes);
 app.use("/", URLRoute);
 
-connectDB();
+await connectDB();
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
